@@ -242,16 +242,16 @@
 
 ;; [[file:shen-elisp.org::*Vectors][Vectors:2]]
 (define-hash-table-test
-  'shen/internal/hash-table-test
-  (lambda (X Y)
-    (shen/internal/= X Y))
-  (lambda (X)
-    (cond
-     ((numberp X) X)
-     ((consp X) (sxhash (prin1-to-string X)))
-     ((hash-table-p X)
-      (sxhash (prin1-to-string X)))
-     (t (sxhash X)))))
+ 'shen/internal/hash-table-test
+ (lambda (X Y)
+   (shen/internal/= X Y))
+ (lambda (X)
+   (cond
+    ((numberp X) X)
+    ((consp X) (sxhash (prin1-to-string X)))
+    ((hash-table-p X)
+     (sxhash (prin1-to-string X)))
+    (t (sxhash X)))))
 ;; Vectors:2 ends here
 
 ;; [[file:shen-elisp.org::*Arithmetic Operations][Arithmetic Operations:1]]
@@ -307,9 +307,9 @@
 (defun shen/get-time (Time)
   (cl-flet
       ((timespec-to-number (spec)
-                           (let* ((high (nth 0 spec))
-                                  (low (nth 1 spec)))
-                             (+ (* high shen/2^16) low))))
+         (let* ((high (nth 0 spec))
+                (low (nth 1 spec)))
+           (+ (* high shen/2^16) low))))
     (cond ((eq Time 'run) (timespec-to-number (get-internal-run-time)))
           ((eq Time 'real)(timespec-to-number (current-time)))
           ((eq Time 'unix)(timespec-to-number (current-time)))
@@ -427,7 +427,7 @@
            (lambda (path target)
              (if (listp path)
                  `(nthcdr ,path ,target)
-                 `(nth ,path ,target)))))
+               `(nth ,path ,target)))))
       (progn
         (dotimes (current-index (length path) nil)
           (setq place-fn
@@ -838,18 +838,18 @@
          (start tail-call-path) ;; (ref:start-accumulator)
          (locally-scoped))
     (cl-flet ((append-and-advance
-               (X &optional reset-start)
-               (progn
-                 (setq start
-                       (if reset-start ;; (ref:reset-start)
-                           tail-call-path
-                         current-from-top-path))
-                 (setq current-from-top-path
-                       (append (reverse (shen/internal/path-slice path-left-to-tail-call 0 X))
-                               current-from-top-path)
-                       path-left-to-tail-call (shen/internal/path-slice path-left-to-tail-call X))
+                (X &optional reset-start)
+                (progn
+                  (setq start
+                        (if reset-start ;; (ref:reset-start)
+                            tail-call-path
+                          current-from-top-path))
+                  (setq current-from-top-path
+                        (append (reverse (shen/internal/path-slice path-left-to-tail-call 0 X))
+                                current-from-top-path)
+                        path-left-to-tail-call (shen/internal/path-slice path-left-to-tail-call X))
 
-                 )))
+                  )))
       (while (not (equal current-from-top-path tail-call-path))
         (let* ((current-list (shen/internal/get-element-at current-from-top-path ast))
                (current-head (car current-list)))
@@ -963,14 +963,14 @@
 (defun shen/internal/namespace-and-quote (ast namespace-only-paths quote-only-paths)
   (progn
     (shen/internal/modify-ast ast namespace-only-paths
-                     (lambda (path ast)
-                       (let ((element (shen/internal/get-element-at path ast)))
-                         (if (not (shen/internal/symbol-prefixed-p element))
-                             (shen/internal/prefix-symbol (shen/internal/get-element-at path ast))
-                           element))))
+                              (lambda (path ast)
+                                (let ((element (shen/internal/get-element-at path ast)))
+                                  (if (not (shen/internal/symbol-prefixed-p element))
+                                      (shen/internal/prefix-symbol (shen/internal/get-element-at path ast))
+                                    element))))
     (shen/internal/modify-ast ast quote-only-paths
-                     (lambda (path ast)
-                       (list 'quote (shen/internal/get-element-at path ast))))
+                              (lambda (path ast)
+                                (list 'quote (shen/internal/get-element-at path ast))))
     ast))
 ;; Modifying The AST:2 ends here
 
@@ -978,14 +978,14 @@
 (defun shen/internal/add-funcalls (ast apply-function)
   (let ((paths-only (mapcar (lambda (path-local) (nth 0 path-local)) apply-function)))
     (shen/internal/modify-ast ast (mapcar #'shen/internal/get-path-parent paths-only)
-                     (lambda (path ast)
-                       (let* ((current-funcalled-list (shen/internal/get-element-at path ast))
-                              (function-name (car current-funcalled-list))
-                              (function-arguments (cdr current-funcalled-list)))
-                         (shen/internal/apply-function
-                          function-name
-                          function-arguments
-                          (shen/internal/lookup-with-default (cons 0 path) apply-function nil)))))))
+                              (lambda (path ast)
+                                (let* ((current-funcalled-list (shen/internal/get-element-at path ast))
+                                       (function-name (car current-funcalled-list))
+                                       (function-arguments (cdr current-funcalled-list)))
+                                  (shen/internal/apply-function
+                                   function-name
+                                   function-arguments
+                                   (shen/internal/lookup-with-default (cons 0 path) apply-function nil)))))))
 ;; Modifying The AST:3 ends here
 
 ;; [[file:shen-elisp.org::*(Unused) Isolating and Filling][(Unused) Isolating and Filling:1]]
@@ -994,8 +994,8 @@
          (tail-call (shen/internal/get-element-at tail-call-path ast))
          (tail-call-relative-path
           (shen/internal/path-slice tail-call-path 0
-                  (- (length tail-call-path)
-                     (length function-chain-path)))))
+                                    (- (length tail-call-path)
+                                       (length function-chain-path)))))
     (shen/internal/nset-element-at tail-call-relative-path function-chain 'shen/__hole__)))
 
 (defun shen/used-in-context (context locally-scoped)
@@ -1132,44 +1132,44 @@
 ;; [[file:shen-elisp.org::*Performance][Performance:1]]
 (setq shen/internal/*performance-overrides*
       '((map . (defun shen/map (F Xs)
-                (mapcar (lambda (X)
-                          (shen/internal/apply-higher-order-function F (list X)))
-                        Xs)))
-       (shen.lazyderef . (defun shen/shen\.lazyderef
-                             (X ProcessN)
-                           (let ((Current X)
-                                 (KeepLooking t))
-                             (while KeepLooking
-                               (shen/if
-                                (shen/shen.pvar? Current)
-                                (shen/let Value (shen/shen.valvector Current ProcessN)
-                                          (shen/if (shen/= Value 'shen.-null-)
-                                                   (setq KeepLooking nil)
-                                                   (setq Current Value)))
-                                (setq KeepLooking nil)))
-                             Current)))
-       (append . (defun shen/append (Xs Ys) (append Xs Ys)))
-       (shen.string->bytes . (defun shen/shen.string->bytes (S)
-                               (string-to-list S)))
-       (sum . (defun shen/sum (Xs) (apply #'+ Xs)))
-       (hash . (defun shen/hash (N Div) (sxhash N)))
-       (shen.mod . (defun shen/shen.mod (N Div) (mod N Div)))
-       (integer? . (defun shen/integer? (N) (shen/internal/predicate->shen (integerp N))))
-       (abs . (defun shen/shen.abs (N) (abs N)))
-       (nth . (defun shen/nth (I Xs) (nth I Xs)))
-       (element? . (defun shen/element? (Element Xs)
-                     (let ((SearchList Xs)
-                           (Found nil)
-                           (Length (length Xs))
-                           (Current 0))
-                       (while (and (not Found) SearchList)
-                         (setq Found (shen/internal/= Element (pop SearchList))))
-                       (shen/internal/predicate->shen Found))))
-       (shen.compose . (defun shen/shen.compose
-                           (Fs X)
-                         (let ((Result X))
-                           (dolist (F Fs Result)
-                             (setq Result (funcall F Result))))))))
+                 (mapcar (lambda (X)
+                           (shen/internal/apply-higher-order-function F (list X)))
+                         Xs)))
+        (shen.lazyderef . (defun shen/shen\.lazyderef
+                              (X ProcessN)
+                            (let ((Current X)
+                                  (KeepLooking t))
+                              (while KeepLooking
+                                (shen/if
+                                 (shen/shen.pvar? Current)
+                                 (shen/let Value (shen/shen.valvector Current ProcessN)
+                                           (shen/if (shen/= Value 'shen.-null-)
+                                                    (setq KeepLooking nil)
+                                                    (setq Current Value)))
+                                 (setq KeepLooking nil)))
+                              Current)))
+        (append . (defun shen/append (Xs Ys) (append Xs Ys)))
+        (shen.string->bytes . (defun shen/shen.string->bytes (S)
+                                (string-to-list S)))
+        (sum . (defun shen/sum (Xs) (apply #'+ Xs)))
+        (hash . (defun shen/hash (N Div) (sxhash N)))
+        (shen.mod . (defun shen/shen.mod (N Div) (mod N Div)))
+        (integer? . (defun shen/integer? (N) (shen/internal/predicate->shen (integerp N))))
+        (abs . (defun shen/shen.abs (N) (abs N)))
+        (nth . (defun shen/nth (I Xs) (nth I Xs)))
+        (element? . (defun shen/element? (Element Xs)
+                      (let ((SearchList Xs)
+                            (Found nil)
+                            (Length (length Xs))
+                            (Current 0))
+                        (while (and (not Found) SearchList)
+                          (setq Found (shen/internal/= Element (pop SearchList))))
+                        (shen/internal/predicate->shen Found))))
+        (shen.compose . (defun shen/shen.compose
+                            (Fs X)
+                          (let ((Result X))
+                            (dolist (F Fs Result)
+                              (setq Result (funcall F Result))))))))
 ;; Performance:1 ends here
 
 ;; [[file:shen-elisp.org::*Performance][Performance:2]]
@@ -1319,13 +1319,13 @@
 
 ;; [[file:shen-elisp.org::*Evaluating Bootstrapped KLambda][Evaluating Bootstrapped KLambda:1]]
 (defun shen/patch-klambda (ast)
- (if (eq (car ast) 'defun)
-       (let ((override (gethash (nth 1 ast) shen/*overrides*)))
-         (or override
-             (shen/internal/parse-ast ast)))
-     (let ((patched (gethash ast shen/*overrides* )))
-       (or patched
-           (shen/internal/parse-ast ast)))))
+  (if (eq (car ast) 'defun)
+      (let ((override (gethash (nth 1 ast) shen/*overrides*)))
+        (or override
+            (shen/internal/parse-ast ast)))
+    (let ((patched (gethash ast shen/*overrides* )))
+      (or patched
+          (shen/internal/parse-ast ast)))))
 ;; Evaluating Bootstrapped KLambda:1 ends here
 
 ;; [[file:shen-elisp.org::*Evaluating Bootstrapped KLambda][Evaluating Bootstrapped KLambda:2]]
