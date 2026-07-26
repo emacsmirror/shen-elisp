@@ -2336,6 +2336,8 @@ KLambda code into Elisp.
   ;; License: BSD 3-Clause License
   ;;   http://opensource.org/licenses/BSD-3-Clause
 
+  ;; Keywords: shen elisp
+  ;; Package-Requires: ((emacs "24.4"))
   ;;; Commentary:
 
   ;; This is an implemenatation of the Shen programming language in
