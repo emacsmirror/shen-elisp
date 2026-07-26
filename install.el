@@ -163,35 +163,36 @@
     (progn
       (erase-buffer)
       (insert "\
-  ;;; shen-elisp.el --- An implementation of the Shen programming language  -*- lexical-binding: t -*-
+;;; shen-elisp.el --- An implementation of the Shen programming language  -*- lexical-binding: t -*-
 
-  ;; Copyright (C) 2015-2018  Aditya Siram
+;; Copyright (C) 2015-2026  Aditya Siram
 
-  ;; Author: Aditya Siram <aditya.siram@gmail.com>
-  ;; Homepage: https://github.com/deech/shen-elisp
-  ;; License: BSD 3-Clause License
-  ;;   http://opensource.org/licenses/BSD-3-Clause
+;; Author: Aditya Siram <aditya.siram@gmail.com>
+;; Homepage: https://github.com/deech/shen-elisp
+;; License: BSD 3-Clause License
+;;   http://opensource.org/licenses/BSD-3-Clause
 
-  ;; Keywords: shen elisp
-  ;; Package-Requires: ((emacs "24.4"))
-  ;;; Commentary:
+;; Keywords: shen elisp
+;; Package-Requires: ((emacs "24.4"))
+;;; Commentary:
 
-  ;; This is an implemenatation of the Shen programming language in
-  ;; Elisp. The end goal is to provide:
-  ;;
-  ;; 1. An easy way to play with Shen with no other installation
-  ;;    hassle (assuming you use Emacs).
-  ;; 2. A first-class development experience when writing Shen.
-  ;;    The idea is that an editor that understands the code can
-  ;;    be much more helpful than one that does not. To this end
-  ;;    the roadmap involves a full gamut of source code
-  ;;    introspection and debugging tools.
+;; This is an implemenatation of the Shen programming language in
+;; Elisp. The end goal is to provide:
+;;
+;; 1. An easy way to play with Shen with no other installation
+;;    hassle (assuming you use Emacs).
+;; 2. A first-class development experience when writing Shen.
+;;    The idea is that an editor that understands the code can
+;;    be much more helpful than one that does not. To this end
+;;    the roadmap involves a full gamut of source code
+;;    introspection and debugging tools.
 
-  ;;; Code:
+;;; Code:
 
-  (require 'shen-primitives)
-  (setq max-lisp-eval-depth 60000)
-  (setq max-specpdl-size 13000)\n\n")
+(require 'shen-primitives)
+(setq max-lisp-eval-depth 60000)
+(setq max-specpdl-size 13000)\n\n"
+                                  )
       (goto-char (point-max))
       (dolist (klambda-file klambda-files nil)
         (eval-klambda-file klambda-file))

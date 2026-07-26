@@ -1,6 +1,6 @@
 ;; [[file:shen-elisp.org::*License][License:1]]
 ;; -*- lexical-binding: t -*-
-;; Copyright (c) 2015-2018 Aditya Siram. All Rights Reserved.
+;; Copyright (c) 2015-2026 Aditya Siram. All Rights Reserved.
 ;; BSD 3-Clause License: http://opensource.org/licenses/BSD-3-Clause
 ;; License:1 ends here
 
